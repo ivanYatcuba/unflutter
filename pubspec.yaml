@@ -15,7 +15,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_redux: ^0.5.3
+  http: ^0.12.0
+  flutter_webview_plugin: ^0.3.0+2
+  url_launcher: ^4.0.3
+  async: 2.0.8
+  redux_epics: 0.10.3
+  rxdart: ^0.20.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
