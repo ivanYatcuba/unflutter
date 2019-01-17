@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:unflutter/auth/flutter_auth.dart';
 import 'package:unflutter/auth/model/config.dart';
 import 'package:unflutter/auth/oauth.dart';
 import 'package:unflutter/auth/token.dart';
+import 'package:unflutter/flow/pictures_screen.dart';
 import 'package:unflutter/redux/action.dart';
 import 'package:unflutter/redux/state.dart';
 
@@ -27,4 +29,13 @@ final unflatterEpics = combineEpics<UnflatterState>([
       yield LoginSucessActionAction(token: token);
     });
   }),
+  TypedEpic<UnflatterState, GoToPicturesScreenAction>((actions, store) {
+    return Observable(actions)
+        .ofType(TypeToken<GoToPicturesScreenAction>())
+        .switchMap((action) async* {
+      action.navigator.push(
+        MaterialPageRoute(builder: (context) => PicturesScreen()),
+      );
+    });
+  })
 ]);

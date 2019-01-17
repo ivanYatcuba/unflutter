@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:unflutter/auth/token.dart';
 
 /// Base class for unsplash app action
@@ -9,4 +10,10 @@ class LoginSucessActionAction extends UnFlatterAction {
   Token token;
 
   LoginSucessActionAction({this.token});
+}
+
+class GoToPicturesScreenAction {
+  NavigatorState navigator;
+
+  GoToPicturesScreenAction({this.navigator});
 }

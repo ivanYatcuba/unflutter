@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:unflutter/login_screen.dart';
+import 'package:unflutter/flow/login_screen.dart';
 import 'package:unflutter/redux/state.dart';
 import 'package:unflutter/redux/store.dart';
 

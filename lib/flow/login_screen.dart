@@ -14,18 +14,21 @@ class LoginScreen extends StatelessWidget {
           state: store.state,
           onLoginButtonPressed: () {
             store.dispatch(TryLoginAction());
+          },
+          onNavigateToPicturesScreen: () {
+            store.dispatch(
+                GoToPicturesScreenAction(navigator: Navigator.of(context)));
           });
     }, builder: (BuildContext context, LoginScreenViewModel vm) {
       if (vm.state.loginState.isUserLoggedIn()) {
-        return Text("ff");
-      } else {
-        return Center(
-          child: RaisedButton(
-            onPressed: vm.onLoginButtonPressed,
-            child: Text("Login"),
-          ),
-        );
+        vm.onNavigateToPicturesScreen();
       }
+      return Center(
+        child: RaisedButton(
+          onPressed: vm.onLoginButtonPressed,
+          child: Text("Login"),
+        ),
+      );
     });
   }
 }
@@ -33,6 +36,8 @@ class LoginScreen extends StatelessWidget {
 class LoginScreenViewModel {
   final UnflatterState state;
   final void Function() onLoginButtonPressed;
+  final void Function() onNavigateToPicturesScreen;
 
-  LoginScreenViewModel({this.state, this.onLoginButtonPressed});
+  LoginScreenViewModel(
+      {this.state, this.onLoginButtonPressed, this.onNavigateToPicturesScreen});
 }
