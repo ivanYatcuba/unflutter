@@ -5,7 +5,7 @@ import 'package:unflutter/auth/flutter_auth.dart';
 import 'package:unflutter/auth/model/config.dart';
 import 'package:unflutter/auth/oauth.dart';
 import 'package:unflutter/auth/token.dart';
-import 'package:unflutter/flow/pictures_screen.dart';
+import 'package:unflutter/presentation/pictures_screen.dart';
 import 'package:unflutter/redux/action.dart';
 import 'package:unflutter/redux/state.dart';
 
@@ -33,8 +33,9 @@ final unflatterEpics = combineEpics<UnflatterState>([
     return Observable(actions)
         .ofType(TypeToken<GoToPicturesScreenAction>())
         .switchMap((action) async* {
-      action.navigator.push(
+      action.navigator.pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => PicturesScreen()),
+          ModalRoute.withName("/Home")
       );
     });
   })
