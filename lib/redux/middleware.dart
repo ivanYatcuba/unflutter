@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:unflutter/api/unsplash_api.dart';
 import 'package:unflutter/auth/flutter_auth.dart';
 import 'package:unflutter/auth/model/config.dart';
 import 'package:unflutter/auth/oauth.dart';
@@ -23,7 +24,6 @@ final unflatterEpics = combineEpics<UnflatterState>([
     return Observable(actions)
         .ofType(TypeToken<TryLoginAction>())
         .switchMap((action) async* {
-      print("logging in");
       Token token = await flutterOAuth.performAuthorization();
       print("token is: ${token.accessToken}");
       yield LoginSucessActionAction(token: token);
@@ -34,9 +34,22 @@ final unflatterEpics = combineEpics<UnflatterState>([
         .ofType(TypeToken<GoToPicturesScreenAction>())
         .switchMap((action) async* {
       action.navigator.pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => PicturesScreen()),
-          ModalRoute.withName("/Home")
-      );
+          MaterialPageRoute(builder: (context) => PicturesScreen()),
+          ModalRoute.withName("/Home"));
+    });
+  }),
+  TypedEpic<UnflatterState, LoadUserInfoAction>((actions, store) {
+    return Observable(actions)
+        .ofType(TypeToken<LoadUserInfoAction>())
+        .switchMap((action) async* {
+      UnpslashApi unpslashApi = UnpslashApi();
+      try {
+        yield UserInfoLoadedAction(
+            userInfo: await unpslashApi
+                .fetchUserInfo(store.state.loginState.token.accessToken));
+      } catch (e) {
+        yield UserInfoLoadedAction(error: e);
+      }
     });
   })
 ]);

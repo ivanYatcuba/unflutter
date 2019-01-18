@@ -11,4 +11,9 @@ final unsplashReducer = combineReducers<UnflatterState>([
     state.loginState.token = action.token;
     return state;
   }),
+  TypedReducer<UnflatterState, UserInfoLoadedAction>((state, action) {
+    state.picturesScreenState.userInfo = action.userInfo;
+    state.picturesScreenState.error = action.error;
+    return state;
+  }),
 ]);
