@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:unflutter/api/model.dart';
 import 'package:unflutter/auth/token.dart';
 
@@ -13,17 +12,20 @@ class LoginSucessActionAction extends UnFlatterAction {
   LoginSucessActionAction({this.token});
 }
 
-class GoToPicturesScreenAction extends UnFlatterAction {
-  NavigatorState navigator;
-
-  GoToPicturesScreenAction({this.navigator});
-}
-
 class LoadUserInfoAction extends UnFlatterAction {}
 
 class UserInfoLoadedAction extends UnFlatterAction {
   UserInfo userInfo;
-  Exception error;
+  Error error;
 
   UserInfoLoadedAction({this.userInfo, this.error});
+}
+
+class LoadRandomPhotoAction extends UnFlatterAction {}
+
+class RandomPhotoLoadedAction extends UnFlatterAction {
+  Photo photo;
+  Error error;
+
+  RandomPhotoLoadedAction({this.photo, this.error});
 }

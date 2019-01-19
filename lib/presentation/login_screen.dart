@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:unflutter/redux/action.dart';
 import 'package:unflutter/redux/state.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -10,34 +12,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return new StoreConnector<UnflatterState, LoginScreenViewModel>(
         converter: (store) {
-      return LoginScreenViewModel(
-          state: store.state,
-          onLoginButtonPressed: () {
+          if (store.state.loginState.isUserLoggedIn() == false) {
             store.dispatch(TryLoginAction());
-          },
-          onNavigateToPicturesScreen: () {
-            store.dispatch(
-                GoToPicturesScreenAction(navigator: Navigator.of(context)));
-          });
+          }
+          return LoginScreenViewModel();
     }, builder: (BuildContext context, LoginScreenViewModel vm) {
-      if (vm.state.loginState.isUserLoggedIn()) {
-        vm.onNavigateToPicturesScreen();
-      }
-      return Center(
-        child: RaisedButton(
-          onPressed: vm.onLoginButtonPressed,
-          child: Text("Login"),
-        ),
-      );
+      return Scaffold(
+          body: Center(
+              child: SpinKitFadingCube(
+                color: Colors.white,
+                size: 60,
+              )));
     });
   }
 }
 
-class LoginScreenViewModel {
-  final UnflatterState state;
-  final void Function() onLoginButtonPressed;
-  final void Function() onNavigateToPicturesScreen;
-
-  LoginScreenViewModel(
-      {this.state, this.onLoginButtonPressed, this.onNavigateToPicturesScreen});
-}
+class LoginScreenViewModel {}

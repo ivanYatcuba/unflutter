@@ -1,41 +1,32 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:unflutter/api/model.dart';
 import 'package:unflutter/api/unsplash_api.dart';
 import 'package:unflutter/auth/flutter_auth.dart';
 import 'package:unflutter/auth/model/config.dart';
 import 'package:unflutter/auth/oauth.dart';
 import 'package:unflutter/auth/token.dart';
-import 'package:unflutter/presentation/pictures_screen.dart';
 import 'package:unflutter/redux/action.dart';
 import 'package:unflutter/redux/state.dart';
-
-final OAuth flutterOAuth = new FlutterOAuth(new Config(
-    "https://unsplash.com/oauth/authorize",
-    "https://unsplash.com/oauth/token",
-    "1aebcd50d4460f3225bd7163cbbb50bb9d13d0e36409c7671d19fa0930892aa3",
-    "84ad9cad29554ffff2909118c66d21f7b62aa14ee2a61ed6bc0a559a919e16c2",
-    "http://localhost:8080",
-    "code",
-    forceWebiew: true));
 
 final unflatterEpics = combineEpics<UnflatterState>([
   TypedEpic<UnflatterState, TryLoginAction>((actions, store) {
     return Observable(actions)
         .ofType(TypeToken<TryLoginAction>())
         .switchMap((action) async* {
+      final OAuth flutterOAuth = new FlutterOAuth(new Config(
+          "https://unsplash.com/oauth/authorize",
+          "https://unsplash.com/oauth/token",
+          "4330a0c366157d92142f4a1a92335e24a928d13241c835875b9b819498184157",
+          "a164966bddfad79ecad618c65e687a36f368398bd26756dd2cfafdf1a0ef6526",
+          "http://localhost:8080",
+          "code",
+          forceWebiew: true));
       Token token = await flutterOAuth.performAuthorization();
       print("token is: ${token.accessToken}");
       yield LoginSucessActionAction(token: token);
-    });
-  }),
-  TypedEpic<UnflatterState, GoToPicturesScreenAction>((actions, store) {
-    return Observable(actions)
-        .ofType(TypeToken<GoToPicturesScreenAction>())
-        .switchMap((action) async* {
-      action.navigator.pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => PicturesScreen()),
-          ModalRoute.withName("/Home"));
+      yield NavigateToAction.replace("/pictures");
     });
   }),
   TypedEpic<UnflatterState, LoadUserInfoAction>((actions, store) {
@@ -44,9 +35,24 @@ final unflatterEpics = combineEpics<UnflatterState>([
         .switchMap((action) async* {
       UnpslashApi unpslashApi = UnpslashApi();
       try {
-        yield UserInfoLoadedAction(
-            userInfo: await unpslashApi
-                .fetchUserInfo(store.state.loginState.token.accessToken));
+        UserInfo userInfo = await unpslashApi
+            .fetchUserInfo(store.state.loginState.accessToken());
+        yield UserInfoLoadedAction(userInfo: userInfo);
+        yield LoadRandomPhotoAction();
+      } catch (e) {
+        yield UserInfoLoadedAction(error: e);
+      }
+    });
+  }),
+  TypedEpic<UnflatterState, LoadRandomPhotoAction>((actions, store) {
+    return Observable(actions)
+        .ofType(TypeToken<LoadRandomPhotoAction>())
+        .switchMap((action) async* {
+      UnpslashApi unpslashApi = UnpslashApi();
+      try {
+        Photo photo = await unpslashApi
+            .fetchRandomPhoto(store.state.loginState.accessToken());
+        yield RandomPhotoLoadedAction(photo: photo);
       } catch (e) {
         yield UserInfoLoadedAction(error: e);
       }

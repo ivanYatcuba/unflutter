@@ -18,6 +18,10 @@ class LoginState {
 
   LoginState({this.token});
 
+  String accessToken() {
+    return token.accessToken;
+  }
+
   bool isUserLoggedIn() {
     return token != null;
   }
@@ -25,7 +29,17 @@ class LoginState {
 
 class PicturesScreenState {
   UserInfo userInfo;
-  Exception error;
+  Error error;
+  Photo photo;
 
-  PicturesScreenState({this.userInfo, this.error});
+  PicturesScreenState({this.userInfo, this.error, this.photo});
+
+  bool isUserInfoLoaded() {
+    return userInfo != null;
+  }
+
+  bool hasError() {
+    return error != null;
+  }
+
 }

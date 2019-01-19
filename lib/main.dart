@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
 import 'package:redux/redux.dart';
 import 'package:unflutter/presentation/login_screen.dart';
+import 'package:unflutter/presentation/pictures_screen.dart';
 import 'package:unflutter/redux/state.dart';
 import 'package:unflutter/redux/store.dart';
 
@@ -25,12 +27,27 @@ class UnflatterApp extends StatelessWidget {
       child: new MaterialApp(
         theme: new ThemeData.dark(),
         title: title,
-        home: new Scaffold(
-            appBar: new AppBar(
-              title: new Text(title),
-            ),
-            body: LoginScreen()),
+        navigatorKey: NavigatorHolder.navigatorKey,
+        onGenerateRoute: _getRoute,
       ),
+    );
+  }
+
+  Route _getRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/login':
+        return _buildRoute(settings, LoginScreen());
+      case '/pictures':
+        return _buildRoute(settings, PicturesScreen());
+      default:
+        return _buildRoute(settings, LoginScreen());
+    }
+  }
+
+  MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
+    return new MaterialPageRoute(
+      settings: settings,
+      builder: (BuildContext context) => builder,
     );
   }
 }

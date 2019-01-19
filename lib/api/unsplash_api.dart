@@ -8,12 +8,22 @@ class UnpslashApi {
   final String unsplashBaseUrl = "https://api.unsplash.com";
 
   Future<UserInfo> fetchUserInfo(String token) async {
-    final response = await http.get("$unsplashBaseUrl/me",
-        headers: {"Authorization": "Bearer $token"});
+    final response = await http.get(
+        "$unsplashBaseUrl/me", headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == 200) {
       return UserInfo.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load user info');
+    }
+  }
+
+  Future<Photo> fetchRandomPhoto(String token) async {
+    final response = await http.get("$unsplashBaseUrl/photos/random",
+        headers: {"Authorization": "Bearer $token"});
+    if (response.statusCode == 200) {
+      return Photo.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load random photo');
     }
   }
 }
