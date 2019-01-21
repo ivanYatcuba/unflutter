@@ -29,3 +29,16 @@ class RandomPhotoLoadedAction extends UnFlatterAction {
 
   RandomPhotoLoadedAction({this.photo, this.error});
 }
+
+class LoadPhotosAction extends UnFlatterAction {
+  int page;
+
+  LoadPhotosAction({this.page});
+}
+
+class PhotosLoadedAction extends UnFlatterAction {
+  PhotoList photos;
+  Error error;
+
+  PhotosLoadedAction({this.photos, this.error});
+}

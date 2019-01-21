@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_redux_navigation/flutter_redux_navigation.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:unflutter/redux/action.dart';
 import 'package:unflutter/redux/state.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key key}) : super(key: key);

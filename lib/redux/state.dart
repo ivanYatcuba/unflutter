@@ -30,10 +30,9 @@ class LoginState {
 class PicturesScreenState {
   UserInfo userInfo;
   Error error;
-  Photo photo;
+  PhotoList photos;
 
-  PicturesScreenState({this.userInfo, this.error, this.photo});
-
+  PicturesScreenState({this.userInfo, this.error, this.photos});
   bool isUserInfoLoaded() {
     return userInfo != null;
   }

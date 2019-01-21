@@ -17,8 +17,8 @@ final unsplashReducer = combineReducers<UnflatterState>([
     state.picturesScreenState.error = action.error;
     return state;
   }),
-  TypedReducer<UnflatterState, RandomPhotoLoadedAction>((state, action) {
-    state.picturesScreenState.photo = action.photo;
+  TypedReducer<UnflatterState, PhotosLoadedAction>((state, action) {
+    state.picturesScreenState.photos = action.photos;
     state.picturesScreenState.error = action.error;
     return state;
   }),

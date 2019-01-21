@@ -14,6 +14,11 @@ part 'model.g.dart';
 /// the generated file. The value for this is *.g.dart, where
 /// the star denotes the source file name.
 
+
+/// This allows the `User` class to access private members in
+/// the generated file. The value for this is *.g.dart, where
+/// the star denotes the source file name.
+
 @JsonSerializable()
 class UserInfo {
   String id;
@@ -171,4 +176,18 @@ class Urls {
   factory Urls.fromJson(Map<String, dynamic> json) => _$UrlsFromJson(json);
 
   Map<String, dynamic> toJson() => _$UrlsToJson(this);
+}
+
+class PhotoList {
+  List<Photo> photos = [];
+  int total;
+  int perPage;
+  int currentPage;
+
+  PhotoList({this.photos, this.total, this.perPage, this.currentPage});
+
+  factory PhotoList.fromJsonList(List<dynamic> json) {
+    return PhotoList(
+        photos: json.map((val) => Photo.fromJson(val)).toList(growable: true));
+  }
 }

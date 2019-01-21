@@ -26,4 +26,21 @@ class UnpslashApi {
       throw Exception('Failed to load random photo');
     }
   }
+
+  Future<PhotoList> fetchPhotoList(String token, int page) async {
+    final response = await http.get(
+        "$unsplashBaseUrl/photos?page=" + page.toString(),
+        headers: {"Authorization": "Bearer $token"});
+    if (response.statusCode == 200) {
+      int total = int.parse(response.headers["x-total"]);
+      int perPage = int.parse(response.headers["x-per-page"]);
+      PhotoList list = PhotoList.fromJsonList(json.decode(response.body));
+      list.total = total;
+      list.perPage = perPage;
+      list.currentPage = page;
+      return list;
+    } else {
+      throw Exception('Failed to load photo list ');
+    }
+  }
 }
