@@ -19,6 +19,11 @@ part 'model.g.dart';
 /// the generated file. The value for this is *.g.dart, where
 /// the star denotes the source file name.
 
+
+/// This allows the `User` class to access private members in
+/// the generated file. The value for this is *.g.dart, where
+/// the star denotes the source file name.
+
 @JsonSerializable()
 class UserInfo {
   String id;
@@ -161,6 +166,16 @@ class Photo {
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
+
+  @override
+  bool operator ==(other) {
+    return this.urls.thumb == (other as Photo).urls.thumb;
+  }
+
+  @override
+  int get hashCode {
+    return this.urls.thumb.hashCode;
+  }
 }
 
 @JsonSerializable()

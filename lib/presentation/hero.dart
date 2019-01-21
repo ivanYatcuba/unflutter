@@ -1,21 +1,40 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class PhotoHero extends StatelessWidget {
-  const PhotoHero(
-      {Key key, this.thumb, this.full, this.onTap, this.width, this.thumbOnly})
-      : super(key: key);
-
+class PhotoHero extends StatefulWidget {
   final String thumb;
   final String full;
   final VoidCallback onTap;
-  final double width;
-
   final bool thumbOnly;
 
+  const PhotoHero({Key key, this.thumb, this.full, this.onTap, this.thumbOnly})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return PhotoHeroState(
+        thumb: thumb, full: full, onTap: onTap, thumbOnly: thumbOnly);
+  }
+}
+
+class PhotoHeroState extends State<PhotoHero>
+    with AutomaticKeepAliveClientMixin {
+  final String thumb;
+  final String full;
+  final VoidCallback onTap;
+  final bool thumbOnly;
+
+  PhotoHeroState({this.thumb, this.full, this.onTap, this.thumbOnly});
+
+  @override
   Widget build(BuildContext context) {
+    if (!thumbOnly) {
+      timeDilation = 1.0; // 1.0 means normal animation speed.
+    }
+
     return Hero(
       tag: thumb,
       child: Material(
@@ -30,9 +49,9 @@ class PhotoHero extends StatelessWidget {
 
   Widget getImage() {
     if (thumbOnly) {
-      return new FadeInImage.memoryNetwork(
-        placeholder: kTransparentImage,
-        image: thumb,
+      return CachedNetworkImage(
+        placeholder: Image.memory(kTransparentImage),
+        imageUrl: thumb,
       );
     } else {
       return new FadeInImage(
@@ -41,6 +60,9 @@ class PhotoHero extends StatelessWidget {
       );
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class HeroAnimation extends StatelessWidget {
@@ -51,8 +73,6 @@ class HeroAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 5.0; // 1.0 means normal animation speed.
-
     return PhotoHero(
         thumb: thumb,
         full: full,

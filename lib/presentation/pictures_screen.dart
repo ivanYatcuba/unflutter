@@ -138,6 +138,7 @@ class PicturesScreenInfoState extends State<PicturesScreenInfo> {
       itemCount: photos.length,
       crossAxisCount: 4,
       shrinkWrap: true,
+      addAutomaticKeepAlives: true,
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
       controller: _scrollController,
@@ -156,17 +157,10 @@ class PicturesScreenInfoState extends State<PicturesScreenInfo> {
           ));
     } else {
       return new Card(
-        child: new Column(
-          children: <Widget>[
-            new Stack(
-              children: <Widget>[
-                new Center(
-                  child: HeroAnimation(thumb: photoList[index].urls.thumb,
-                      full: photoList[index].urls.full),
-                ),
-              ],
-            ),
-          ],
+        child: new Center(
+          child: HeroAnimation(
+              thumb: photoList[index].urls.thumb,
+              full: photoList[index].urls.full),
         ),
       );
     }
