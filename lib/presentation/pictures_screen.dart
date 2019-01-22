@@ -31,7 +31,7 @@ class PicturesScreen extends StatelessWidget {
             token: store.state.loginState.accessToken());
       },
       builder: (BuildContext context, PicturesScreenViewModel vm) {
-        if (vm.error != null) {
+        if (vm.error != null && vm.userInfo == null) {
           return Center(child: Text(vm.error.toString()));
         }
         if (vm.userInfo != null) {
@@ -53,7 +53,7 @@ class PicturesScreen extends StatelessWidget {
 class PicturesScreenViewModel {
   final UserInfo userInfo;
   final PhotoList photos;
-  final Error error;
+  final Exception error;
   final String token;
 
   PicturesScreenViewModel({this.userInfo, this.error, this.photos, this.token});
@@ -159,7 +159,7 @@ class PicturesScreenInfoState extends State<PicturesScreenInfo> {
       return new Card(
         child: new Center(
           child: HeroAnimation(
-              thumb: photoList[index].urls.thumb,
+              thumb: photoList[index].urls.small,
               full: photoList[index].urls.full),
         ),
       );

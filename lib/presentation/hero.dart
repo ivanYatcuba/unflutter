@@ -31,18 +31,11 @@ class PhotoHeroState extends State<PhotoHero>
 
   @override
   Widget build(BuildContext context) {
-    if (!thumbOnly) {
-      timeDilation = 1.0; // 1.0 means normal animation speed.
-    }
-
     return Hero(
       tag: thumb,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          child: getImage(),
-        ),
+      child: GestureDetector(
+        child: getImage(),
+        onTap: onTap,
       ),
     );
   }
@@ -54,10 +47,7 @@ class PhotoHeroState extends State<PhotoHero>
         imageUrl: thumb,
       );
     } else {
-      return new FadeInImage(
-        placeholder: NetworkImage(this.thumb),
-        image: NetworkImage(this.full),
-      );
+      return Image.network(this.thumb, fit: BoxFit.fitWidth);
     }
   }
 
@@ -78,22 +68,19 @@ class HeroAnimation extends StatelessWidget {
         full: full,
         thumbOnly: true,
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute<void>(builder: (BuildContext context) {
-            return Container(
-                color: Color(0xFF737373),
-                child: Center(
-                  widthFactor: 1.0,
-                  child: PhotoHero(
-                    thumbOnly: false,
-                    thumb: thumb,
-                    full: full,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ));
-          }));
+          Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              barrierDismissible: true,
+              pageBuilder: (BuildContext context, _, __) {
+                return PhotoHero(
+                  thumbOnly: false,
+                  thumb: thumb,
+                  full: full,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                );
+              }));
         });
   }
 }

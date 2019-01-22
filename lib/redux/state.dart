@@ -29,7 +29,7 @@ class LoginState {
 
 class PicturesScreenState {
   UserInfo userInfo;
-  Error error;
+  Exception error;
   PhotoList photos;
 
   PicturesScreenState({this.userInfo, this.error, this.photos});

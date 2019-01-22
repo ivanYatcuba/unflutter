@@ -18,8 +18,8 @@ final unflatterEpics = combineEpics<UnflatterState>([
       final OAuth flutterOAuth = new FlutterOAuth(new Config(
           "https://unsplash.com/oauth/authorize",
           "https://unsplash.com/oauth/token",
-          "4330a0c366157d92142f4a1a92335e24a928d13241c835875b9b819498184157",
-          "a164966bddfad79ecad618c65e687a36f368398bd26756dd2cfafdf1a0ef6526",
+          "52ed3d9c9419c700ed50e034dd81f58692b8234f7b265edcbd1bbc490f172df7",
+          "0e6d040084eadd40503e9bb7976cd4efb53bb01037e787c3838efba0466292ed",
           "http://localhost:8080",
           "code",
           forceWebiew: true));

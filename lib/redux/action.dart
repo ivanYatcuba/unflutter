@@ -16,7 +16,7 @@ class LoadUserInfoAction extends UnFlatterAction {}
 
 class UserInfoLoadedAction extends UnFlatterAction {
   UserInfo userInfo;
-  Error error;
+  Exception error;
 
   UserInfoLoadedAction({this.userInfo, this.error});
 }
@@ -38,7 +38,7 @@ class LoadPhotosAction extends UnFlatterAction {
 
 class PhotosLoadedAction extends UnFlatterAction {
   PhotoList photos;
-  Error error;
+  Exception error;
 
   PhotosLoadedAction({this.photos, this.error});
 }
